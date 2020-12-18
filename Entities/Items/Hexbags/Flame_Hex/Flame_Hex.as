@@ -1,6 +1,9 @@
-// Lantern script
+// Flame Hex bag script
 
-void onInit(CBlob@ this)
+//To Do
+	//Clear commented-out code
+
+/*void onInit(CBlob@ this)
 {
 	this.SetLight(true);
 	this.SetLightRadius(64.0f);
@@ -18,16 +21,14 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().runFlags |= Script::tick_inwater;
 	this.getCurrentScript().tickFrequency = 24;
 }
+*/
 
 void onTick(CBlob@ this)
 {
-	if (this.isLight() && this.isInWater())
-	{
-		Light(this, false);
-	}
+	return;
 }
 
-void Light(CBlob@ this, bool on)
+/*void Light(CBlob@ this, bool on)
 {
 	if (!on)
 	{
@@ -41,8 +42,9 @@ void Light(CBlob@ this, bool on)
 	}
 	this.getSprite().PlaySound("SparkleShort.ogg");
 }
+*/
 
-void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
+/*void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
 	if (cmd == this.getCommandID("activate"))
 	{
@@ -50,6 +52,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	}
 
 }
+*/
 
 bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 {
