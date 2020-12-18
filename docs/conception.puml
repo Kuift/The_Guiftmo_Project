@@ -1,0 +1,39 @@
+@startuml Conception
+
+skinparam defaultfontname Verdana
+title Spell GUI interaction model
+
+hide empty members
+abstract Spell
+{
+    render():Void
+    setRenderPosition(position:Vec2f):void
+    setRenderSize(scale:Vec2f):void
+    getNumberOfChargesLeft():int
+    addCharge(numberOfCharges:int):void
+    execute():bool
+}
+class logTrapSpell implements Spell
+{
+
+}
+class bloodSpell implements Spell
+class SpellsGUI
+Entity GUIRenderer
+class RuneGame
+class RuneKeyboard
+GUIRenderer "1"--> "1" SpellsGUI : Setup >
+SpellsGUI "1" *- "1..*" Spell : Contains >
+SpellsGUI "1" -- "1"  RuneGame
+RuneGame "1" o-- "1" RuneKeyboard
+@enduml
+
+class Université
+class Enseignant{
+  prénom: String
+  nom: String
+  courriel: String
+}
+
+
+Université "1" -- "1..*" Enseignant : Emploie >
