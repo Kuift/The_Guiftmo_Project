@@ -45,6 +45,7 @@ namespace Descriptions
 	ladder                     = getTranslatedString("A simple wooden ladder for climbing over defenses."),
 
 	flame_hex                  = getTranslatedString("A hex bag containing an offering to the spirit of fire. It is warm to the touch."),
+	thunder_hex                = getTranslatedString("A hex bag containing an offering to the spirit of thunder. Holding it seems to make your hair stand on end."),
 	
 	heart                      = getTranslatedString("A health regenerating heart."),
 	sack                       = getTranslatedString("A sack for storing more inventory on your back."), //OLD

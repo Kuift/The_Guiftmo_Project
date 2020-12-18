@@ -29,8 +29,8 @@ void InitWorkshop(CBlob@ this)
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", WARCosts::flame_hex_wood);
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Bucket", "$bucket$", "bucket", Descriptions::bucket, false);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", WARCosts::bucket_wood);
+		ShopItem@ s = addShopItem(this, "Thunder_Hex", "$thunder_hex$", "thunder_hex", Descriptions::thunder_hex, false);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", WARCosts::thunder_hex_wood);
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Sponge", "$sponge$", "sponge", Descriptions::sponge, false);

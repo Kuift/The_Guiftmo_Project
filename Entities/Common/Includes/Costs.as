@@ -48,7 +48,7 @@ namespace WARCosts
 		crate_wood, drill_stone, saw_wood, dinghy_wood, boulder_stone;
 
 	//Witchcraft_Table.as
-	s32 flame_hex_wood;
+	s32 flame_hex_wood, thunder_hex_wood;
 
 	//Scrolls
 	s32 crappiest_scroll, crappy_scroll, medium_scroll,
@@ -172,6 +172,7 @@ void InitCosts()
 
 	//Witchcraft_Table.as
 	WARCosts::flame_hex_wood =          ReadCost(cfg, "cost_flame_hex_wood"     , 20);
+	WARCosts::thunder_hex_wood =        ReadCost(cfg, "cost_thunder_hex_wood"   , 20);
 
 	//Scrolls
 	WARCosts::crappiest_scroll =        ReadCost(cfg, "cost_crappiest_scroll"   , 60);
