@@ -1,48 +1,50 @@
 #include "Spell.as"
-//thanks to epsilon for the starter code i started with.
+
+//thanks to epsilon for the starter code.
 class SpellsGUI
 {
 	private Spell@[] spells;
-	private uint maxItems;
 	private Spell@ selectedItem;
 	private float displacementSpeed;
-	private uint width;
-	private uint height;
-	private bool hasMoved;
 	private Vec2f position;
 	private Vec2f cellDim(40, 40);
-
 	private string[] itemFilter;
-
-	SpellsGUI(Vec2f position, array<string> filenames)
+	private string GUITexture;
+	private u16[] v_i;
+	private Vertex[] v_raw;
+	SMesh@ GUIMesh = SMesh();
+	SMaterial@ GUIMat = SMaterial();
+	const string SPELLSICONSPNG = "SPELLSICONS";
+	const float guiRadius = 250;
+	const float guiOffsetX = 0;
+	const float guiOffsetY = 100; 
+	SpellsGUI()
 	{
-		//this next line serve to change the width of the gui depending on the number of spell there is. by default it will be 5 spells per rows. 
-		//if there are at least 15 spells in filenames, then the width will increase by 1. 
-		int itemsPerRow = 5+int((filenames.size())/15);
-		this.hasMoved = false;
-		int nbOfItem = filenames.size();
-
-		if(itemsPerRow == 0)
+		if(!Texture::exists(SPELLSICONSPNG))
 		{
-			itemsPerRow = 1;
+			print("creating texture...");
+			Texture::createFromFile(SPELLSICONSPNG,"/GUI/spellsIcons.png");
+			GUIMat.AddTexture(SPELLSICONSPNG, 0);
+			GUIMat.DisableAllFlags();
+			GUIMat.SetFlag(SMaterial::COLOR_MASK, true);
+			GUIMat.SetFlag(SMaterial::ZBUFFER, true);
+			GUIMat.SetFlag(SMaterial::ZWRITE_ENABLE, true);
+			GUIMat.SetMaterialType(SMaterial::TRANSPARENT_VERTEX_ALPHA);
+			
+			GUIMesh.SetMaterial(GUIMat);
+			GUIMesh.SetHardwareMapping(SMesh::STATIC);
 		}
-
-		this.position = position;
-		this.width = itemsPerRow;
-		this.position = Vec2f(100,100);
-		if(nbOfItem < itemsPerRow)
+		spells.push_back(Spell(v_raw, v_i))
+		float angleSeparation = 90/spells.size() 
+		for (int i=0; i < spells.size() ; ++i)
 		{
-			this.width = nbOfItem;
+			spells[i].setRenderPosition(Vec2f(getScreenWidth()/2 + Maths::Cos(45+angleSeparation*i)*guiRadius, getScreenHeight()/2 - Maths::Sin(45+angleSeparation*i)*guiRadius - guiOffsetY));
 		}
-
-		this.height = 1+(nbOfItem)/(itemsPerRow);
-		this.maxItems = nbOfItem;
-		this.displacementSpeed = 0.5f;
-
-		for (uint i = 0; i < maxItems; i++)
-		{
-			spells.push_back(Spell("Bp" + i, filenames[i]));
-		}
+		/*GUIMesh.SetVertex(v_raw);
+		GUIMesh.SetIndices(v_i); 
+		GUIMesh.BuildMesh();
+		GUIMesh.SetDirty(SMesh::VERTEX_INDEX);
+		GUIMesh.RenderMeshWithMaterial();*/
 	}
 	void setPosition(Vec2f newpos)
 	{
@@ -92,93 +94,9 @@ class SpellsGUI
 		return false;
 	}
 
-	void RemoveItem(Spell@ spell)
-	{
-		for (uint i = 0; i < spells.length; i++)
-		{
-			Spell@ item2 = spells[i];
-			if (item2 is spell)
-			{
-				RemoveItem(i);
-				return;
-			}
-		}
-	}
-
-	void RemoveItem(uint x, uint y)
-	{
-		uint index = getIndex(x, y);
-		RemoveItem(index);
-	}
-
-	void RemoveItem(uint index)
-	{
-		if (hasItem(index))
-		{
-			spells.removeAt(index);
-			print("Removed spell");
-		}
-	}
-
-	Spell@ getItem(uint x, uint y)
-	{
-		uint index = getIndex(x, y);
-		return getItem(index);
-	}
-
-	Spell@ getItem(uint index)
-	{
-		if (hasItem(index))
-		{
-			return spells[index];
-		}
-		return null;
-	}
-
-	int getItemIndex(Spell@ spell)
-	{
-		for (uint i = 0; i < spells.length; i++)
-		{
-			Spell@ item2 = spells[i];
-			if (item2 is spell)
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	bool hasItem(Spell@ spell)
-	{
-		for (uint i = 0; i < spells.length; i++)
-		{
-			Spell@ item2 = spells[i];
-			if (item2 is spell)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	bool hasItem(uint x, uint y)
-	{
-		uint index = getIndex(x, y);
-		return hasItem(index);
-	}
-
-	bool hasItem(uint index)
-	{
-		if (index < spells.length)
-		{
-			return spells[index] !is null;
-		}
-		return false;
-	}
-
 	bool canAddItem(Spell@ spell)
 	{
-		return itemFilter.empty() || itemFilter.find(spell.name) > -1;
+		return f.empty() || itemFilter.find(spell.name) > -1;
 	}
 
 	string Update()
@@ -201,31 +119,6 @@ class SpellsGUI
 			}
 		}
 
-		if (hasSelectedItem())
-		{
-			Vec2f mousePos = controls.getMouseScreenPos();
-			int oldIndex = getItemIndex(selectedItem);
-			int index = getCellAtPoint(mousePos);
-			if (oldIndex != index && index != -1)
-			{
-				Spell spell = selectedItem;
-				RemoveItem(selectedItem);
-				AddItem(spell, Maths::Min(index, spells.length));
-				@selectedItem = spell;
-				this.hasMoved = true;
-			}
-
-			if (!controls.isKeyPressed(KEY_LBUTTON))
-			{
-				print("Deselected " + selectedItem.name);
-				string bpPath = selectedItem.path;
-				@selectedItem = null;
-				if(this.hasMoved == false)
-				{
-					return bpPath;
-				}
-			}
-		}
 		return "";
 	}
 

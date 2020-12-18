@@ -1,11 +1,16 @@
 shared class Spell
 {
-	string name;
-	Vec2f position;
-	string path;
-	Spell(string name, string newPath)
+	MeshGUIObject MGO;
+	Spell()
 	{
-		this.name = name;
-		this.path = newPath;
+		MGO = MeshGUIObject(Vertex[] &vertexArray, u16[] &indexArray);
+	}
+	void setRenderPosition(position Vec2f)
+	{
+		MGO.setRenderPosition(position Vec2f);
+	}
+	int getSpellID()
+	{
+		return -1;
 	}
 }
