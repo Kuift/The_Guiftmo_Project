@@ -17,6 +17,7 @@ class SpellsGUI
 	float guiRadius = 250; // CONST
 	float guiOffsetX = 0; // CONST
 	float guiOffsetY = 100; // CONST
+	Driver@ driver;
 	SpellsGUI()
 	{
 		if(!Texture::exists(SPELLSICONSPNG))
@@ -35,9 +36,10 @@ class SpellsGUI
 		}
 		spells.push_back(Spell(VIDT,Icon(Vec2f(0.0f,0.0f), Vec2f(32.0f,32.0f))));
 		float angleSeparation = 90/spells.size();
+		@driver = getDriver();
 		for (int i=0; i < spells.size() ; ++i)
 		{
-			spells[i].setRenderPosition(Vec2f(getScreenWidth()/2 + Maths::Cos(45+angleSeparation*i)*guiRadius, getScreenHeight()/2 - Maths::Sin(45+angleSeparation*i)*guiRadius - guiOffsetY));
+			spells[i].setRenderPosition(driver.getWorldPosFromScreenPos(Vec2f(getScreenWidth()/2 + Maths::Cos(45+angleSeparation*i)*guiRadius, getScreenHeight()/2 - Maths::Sin(45+angleSeparation*i)*guiRadius - guiOffsetY)));
 		}
 
 	}

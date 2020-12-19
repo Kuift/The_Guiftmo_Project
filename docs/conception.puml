@@ -16,6 +16,7 @@ abstract Spell
 class MeshGUIObject
 {
   - position:Vec2f
+  - VIDT:VertexAndIndexDataType@
   - vertexArrayStartIndex:int
   - vertexArrayEndIndex:int
   - IndexArrayStartIndex:int

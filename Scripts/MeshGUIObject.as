@@ -14,14 +14,14 @@ class MeshGUIObject
 	MeshGUIObject(VertexAndIndexDataType@ newVIDT, Icon icon)
 	{
         @VIDT = newVIDT;
-        size = Vec2f(1600.0f, 1600.0f);
+        size = Vec2f(16.0f, 16.0f);
         _icon = icon;
         vertexArrayStartIndex = VIDT.getVertexArraySize();
         indexArrayStartIndex = VIDT.getIndexArraySize();
-        VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0x70aacdff))); //upper left
-		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0x70aacdff))); //upper right
-		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0x70aacdff))); //bottom right
-		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0x70aacdff))); //bottom left
+        VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0xffffffff))); //upper left
+		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0xffffffff))); //upper right
+		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0xffffffff))); //bottom right
+		VIDT.vraw_push_back(Vertex(0, 0, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0xffffffff))); //bottom left
         
 		VIDT.vi_push_back(vertexArrayStartIndex);
 		VIDT.vi_push_back(vertexArrayStartIndex+1);
@@ -37,20 +37,20 @@ class MeshGUIObject
 
     void refresh()  
     {  
-        VIDT.vraw_edit(vertexArrayStartIndex  ,(Vertex(position.x - size.x, position.y - size.y, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0x70aacdff)))); //upper left
-		VIDT.vraw_edit(vertexArrayStartIndex+1, (Vertex(position.x + size.x, position.y - size.y, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0x70aacdff)))); //upper right
-		VIDT.vraw_edit(vertexArrayStartIndex+2, (Vertex(position.x + size.x, position.y + size.y, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0x70aacdff)))); //bottom right
-		VIDT.vraw_edit(vertexArrayStartIndex+3, (Vertex(position.x - size.x, position.y + size.y, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0x70aacdff)))); //bottom left
+        VIDT.vraw_edit(vertexArrayStartIndex  , (Vertex(position.x - size.x, position.y - size.y, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0xffffffff)))); //upper left
+		VIDT.vraw_edit(vertexArrayStartIndex+1, (Vertex(position.x + size.x, position.y - size.y, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0xffffffff)))); //upper right
+		VIDT.vraw_edit(vertexArrayStartIndex+2, (Vertex(position.x + size.x, position.y + size.y, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0xffffffff)))); //bottom right
+		VIDT.vraw_edit(vertexArrayStartIndex+3, (Vertex(position.x - size.x, position.y + size.y, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0xffffffff)))); //bottom left
     }
 
     void setRenderPosition(Vec2f newPosition)
     {
         position = newPosition;
         print("SET POSITION SET");
-        VIDT.vraw_edit(vertexArrayStartIndex  ,(Vertex(position.x - size.x, position.y - size.y, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0x70aacdff)))); //upper left
-		VIDT.vraw_edit(vertexArrayStartIndex+1,(Vertex(position.x + size.x, position.y - size.y, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0x70aacdff)))); //upper right
-		VIDT.vraw_edit(vertexArrayStartIndex+2,(Vertex(position.x + size.x, position.y + size.y, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0x70aacdff)))); //bottom right
-		VIDT.vraw_edit(vertexArrayStartIndex+3,(Vertex(position.x - size.x, position.y + size.y, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0x70aacdff)))); //bottom left
+        VIDT.vraw_edit(vertexArrayStartIndex  ,(Vertex(position.x - size.x, position.y - size.y, 1000, _icon.getUVX(0), _icon.getUVY(0),SColor(0xffffffff)))); //upper left
+		VIDT.vraw_edit(vertexArrayStartIndex+1,(Vertex(position.x + size.x, position.y - size.y, 1000, _icon.getUVX(1), _icon.getUVY(1),SColor(0xffffffff)))); //upper right
+		VIDT.vraw_edit(vertexArrayStartIndex+2,(Vertex(position.x + size.x, position.y + size.y, 1000, _icon.getUVX(2), _icon.getUVY(2),SColor(0xffffffff)))); //bottom right
+		VIDT.vraw_edit(vertexArrayStartIndex+3,(Vertex(position.x - size.x, position.y + size.y, 1000, _icon.getUVX(3), _icon.getUVY(3),SColor(0xffffffff)))); //bottom left
     }
 
     void setRenderSize(Vec2f newSize)
