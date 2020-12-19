@@ -8,4 +8,5 @@
         - pressed
         - released
     - fix the radial UI setup, make GUI spread when shown for the first time
+    - get proper art for the GUI, fix esthetics
     - As always, update the documentation
