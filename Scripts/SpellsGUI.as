@@ -34,7 +34,7 @@ class SpellsGUI
 			GUIMesh.SetMaterial(GUIMat);
 			GUIMesh.SetHardwareMapping(SMesh::STATIC);
 		}
-		spells.push_back(Spell(v_raw, v_i))
+		spells.push_back(Spell(v_raw, v_i,Icon(Vec2f(0.0f,0.0f), Vec2f(32.0f,32.0f))))
 		float angleSeparation = 90/spells.size() 
 		for (int i=0; i < spells.size() ; ++i)
 		{
