@@ -6,7 +6,7 @@ title Spell GUI interaction model
 hide empty members
 abstract Spell
 {
-    - mesh:MeshGUIObject
+    - MGO:MeshGUIObject
     + setRenderPosition(position:Vec2f):void
     + setRenderSize(scale:Vec2f):void
     + getNumberOfChargesLeft():int
@@ -29,6 +29,7 @@ class logTrapSpell implements Spell
 {
 
 }
+class Icon
 class bloodSpell implements Spell
 class SpellsGUI
 Entity GUIRenderer
@@ -39,6 +40,7 @@ SpellsGUI "1" *- "1..*" Spell : Contains >
 SpellsGUI "1" -- "1"  RuneGame
 RuneGame "1" o-- "1" RuneKeyboard
 Spell *-- "1" MeshGUIObject
+MeshGUIObject o-- "1" Icon
 @enduml
 
 class Université
