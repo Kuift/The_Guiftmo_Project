@@ -28,6 +28,7 @@ void KeyDetector()
     if(c.isKeyJustPressed(KEY_KEY_R))
 	{
 		showGUI = !showGUI;
+		print("show gui : " + showGUI);
 	}
 }
 

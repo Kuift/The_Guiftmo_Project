@@ -14,11 +14,11 @@ class VertexAndIndexDataType
     {
         return v_i;
     }
-    int getVertexArraySize()
+    uint getVertexArraySize()
     {
         return v_raw.size();
     }
-    int getIndexArraySize()
+    uint getIndexArraySize()
     {
         return v_i.size();
     }

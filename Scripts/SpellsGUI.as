@@ -1,5 +1,5 @@
 #include "Spell.as"
-
+#include "VertexAndIndexDataType.as"
 //thanks to epsilon for the starter code.
 class SpellsGUI
 {
@@ -10,8 +10,7 @@ class SpellsGUI
 	private Vec2f cellDim(40, 40);
 	private string[] itemFilter;
 	private string GUITexture;
-	private u16[] v_i;
-	private Vertex[] v_raw;
+	private VertexAndIndexDataType VIDT = VertexAndIndexDataType();
 	SMesh@ GUIMesh = SMesh();
 	SMaterial@ GUIMat = SMaterial();
 	string SPELLSICONSPNG = "SPELLSICONS"; // CONST
@@ -34,7 +33,7 @@ class SpellsGUI
 			GUIMesh.SetMaterial(GUIMat);
 			GUIMesh.SetHardwareMapping(SMesh::STATIC);
 		}
-		spells.push_back(Spell(v_raw, v_i,Icon(Vec2f(0.0f,0.0f), Vec2f(32.0f,32.0f))));
+		spells.push_back(Spell(VIDT,Icon(Vec2f(0.0f,0.0f), Vec2f(32.0f,32.0f))));
 		float angleSeparation = 90/spells.size();
 		for (int i=0; i < spells.size() ; ++i)
 		{
@@ -58,8 +57,8 @@ class SpellsGUI
 
 	void Render()
 	{
-		GUIMesh.SetVertex(v_raw);
-		GUIMesh.SetIndices(v_i); 
+		GUIMesh.SetVertex(VIDT.getVertexArray());
+		GUIMesh.SetIndices(VIDT.getIndexArray()); 
 		GUIMesh.BuildMesh();
 		GUIMesh.SetDirty(SMesh::VERTEX_INDEX);
 		GUIMesh.RenderMeshWithMaterial();

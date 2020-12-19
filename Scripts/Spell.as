@@ -1,13 +1,14 @@
 #include "MeshGUIObject.as"
 #include "Icon.as"
+#include "VertexAndIndexDataType.as"
 class Spell
 {
 	MeshGUIObject MGO;
 	int charges;
-	Spell(Vertex[] &vertexArray, u16[] &indexArray, Icon icon)
+	Spell(VertexAndIndexDataType@ VIDT, Icon icon)
 	{
 		charges = 0;
-		MGO = MeshGUIObject(vertexArray, indexArray, icon);
+		MGO = MeshGUIObject(VIDT, icon);
 	}
 	void setRenderPosition(Vec2f position)
 	{
