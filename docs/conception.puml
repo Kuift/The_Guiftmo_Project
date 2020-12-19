@@ -28,15 +28,18 @@ class DescriptionGUI extends MeshGUIObject
 {
 
 }
-class LogTrapSpell extends Spell
-{
-  + execute():bool
-}
+
 class Icon
 {
   + Icon(textureCoordUpperLeft:Vec2f, textureCoordBottomRight:Vec2f)
   + getUVX(i:int)
   + getUVY(i:int)
+}
+package Spells <<Rectangle>> 
+{
+class LogTrapSpell extends Spell
+{
+  + execute():bool
 }
 class BloodSpell extends Spell
 {
@@ -46,10 +49,11 @@ class FireballSpell extends Spell
 {
   + execute():bool
 }
+}
 class VertexAndIndexDataType
 {
-  v_raw:Vertex[]
-  v_i:u16[]
+  - v_raw:Vertex[]
+  - v_i:u16[]
 }
 class SpellsGUI
 Entity GUIRenderer
