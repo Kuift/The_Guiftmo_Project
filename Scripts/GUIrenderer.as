@@ -25,10 +25,9 @@ void KeyDetector()
 {
     CControls@ c = getControls();
 	if (c is null) return;
-    if(c.isKeyJustPressed(KEY_KEY_G))
+    if(c.isKeyJustPressed(KEY_KEY_R))
 	{
 		showGUI = !showGUI;
-		print("Trigger GUI Event");
 	}
 }
 
