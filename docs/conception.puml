@@ -38,18 +38,22 @@ class Icon
 }
 package Spells <<Rectangle>> 
 {
-class LogTrapSpell extends Spell
-{
-  + execute():bool
-}
-class BloodSpell extends Spell
-{
-  + execute():bool
-}
-class FireballSpell extends Spell
-{
-  + execute():bool
-}
+  class LogTrapSpell extends Spell
+  {
+    + execute():bool
+  }
+  class BloodSpell extends Spell
+  {
+    + execute():bool
+  }
+  class FireballSpell extends Spell
+  {
+    + execute():bool
+  }
+  class SpongeXplosionSpell extends Spell
+  {
+    + execute():bool
+  }
 }
 class VertexAndIndexDataType
 {
