@@ -11,7 +11,7 @@ abstract Spell
     + setRenderSize(scale:Vec2f):void
     + getNumberOfChargesLeft():int
     + addCharge(numberOfCharges:int):void
-    + execute():bool
+    + execute():bool <<abstract>>
 }
 class MeshGUIObject
 {
@@ -20,16 +20,24 @@ class MeshGUIObject
   - vertexArrayEndIndex:int
   - IndexArrayStartIndex:int
   - IndexArrayEndIndex:int
+  - size:Vec2f
+  + refresh()
+  + MeshGUIObject(Vertex[] &vertexArray, u16[] &indexArray, Icon icon)
 }
 class DescriptionGUI extends MeshGUIObject
 {
 
 }
-class logTrapSpell implements Spell
+class LogTrapSpell implements Spell
 {
 
 }
 class Icon
+{
+  + Icon(textureCoordUpperLeft:Vec2f, textureCoordBottomRight:Vec2f)
+  + getUVX(i:int)
+  + getUVY(i:int)
+}
 class bloodSpell implements Spell
 class SpellsGUI
 Entity GUIRenderer
