@@ -14,10 +14,10 @@ class SpellsGUI
 	private Vertex[] v_raw;
 	SMesh@ GUIMesh = SMesh();
 	SMaterial@ GUIMat = SMaterial();
-	const string SPELLSICONSPNG = "SPELLSICONS";
-	const float guiRadius = 250;
-	const float guiOffsetX = 0;
-	const float guiOffsetY = 100; 
+	string SPELLSICONSPNG = "SPELLSICONS"; // CONST
+	float guiRadius = 250; // CONST
+	float guiOffsetX = 0; // CONST
+	float guiOffsetY = 100; // CONST
 	SpellsGUI()
 	{
 		if(!Texture::exists(SPELLSICONSPNG))

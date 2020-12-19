@@ -2,8 +2,8 @@ class Icon
 {
     private Vec2f _textureCoordUpperLeft;
     private Vec2f _textureCoordBottomRight;
-    private const int TOTALTEXTUREWIDTH = 1024;
-    private const int TOTALTEXTUREHEIGHT = 1024;
+    private int TOTALTEXTUREWIDTH = 1024; //CONST
+    private int TOTALTEXTUREHEIGHT = 1024; //CONST
 	Icon(Vec2f textureCoordUpperLeft, Vec2f textureCoordBottomRight)
 	{
         _textureCoordUpperLeft = textureCoordUpperLeft;

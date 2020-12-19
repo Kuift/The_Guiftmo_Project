@@ -1,17 +1,17 @@
 #include "MeshGUIObject.as"
 #include "Icon.as"
-shared class Spell
+class Spell
 {
 	MeshGUIObject MGO;
 	int charges;
 	Spell(Vertex[] &vertexArray, u16[] &indexArray, Icon icon)
 	{
 		charges = 0;
-		MGO = MeshGUIObject(Vertex[] &vertexArray, u16[] &indexArray, icon);
+		MGO = MeshGUIObject(vertexArray, indexArray, icon);
 	}
-	void setRenderPosition(position Vec2f)
+	void setRenderPosition(Vec2f position)
 	{
-		MGO.setRenderPosition(position Vec2f);
+		MGO.setRenderPosition(position);
 	}
 	void setRenderSize(Vec2f size)
 	{
