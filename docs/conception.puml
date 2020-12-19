@@ -46,6 +46,11 @@ class FireballSpell extends Spell
 {
   + execute():bool
 }
+class VertexAndIndexDataType
+{
+  v_raw:Vertex[]
+  v_i:u16[]
+}
 class SpellsGUI
 Entity GUIRenderer
 class RuneGame
@@ -56,6 +61,9 @@ SpellsGUI "1" -- "1"  RuneGame
 RuneGame "1" o-- "1" RuneKeyboard
 Spell *-- "1" MeshGUIObject
 MeshGUIObject o-- "1" Icon
+SpellsGUI *-- "1" VertexAndIndexDataType
+Spell ..> VertexAndIndexDataType
+MeshGUIObject --> VertexAndIndexDataType
 @enduml
 
 class Université
