@@ -26,6 +26,23 @@ class Spell
 	{
 		return -1;
 	}
+	bool isMouseOver(Vec2f mousePos)
+	{
+		return MGO.isMouseOver(mousePos);
+	}
+	void setColor(SColor color)
+	{
+		MGO.setColor(color);
+		MGO.refresh();
+	}
+	void setColorHovering()
+	{
+		this.setColor(SColor(0xff404040));
+	}
+	void setColorNormal()
+	{
+		this.setColor(SColor(0xffffffff));
+	}
 	void setNewIcon(Icon newIcon)
 	{
 		MGO.setNewIcon(newIcon);

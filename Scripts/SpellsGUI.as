@@ -1,23 +1,24 @@
 #include "Spell.as"
 #include "VertexAndIndexDataType.as"
+#include "SpongeXplosionSpell.as"
 //thanks to epsilon for the starter code.
 class SpellsGUI
 {
 	private Spell@[] spells;
-	private Spell@ selectedItem;
-	private float displacementSpeed;
-	private Vec2f position;
-	private Vec2f cellDim(40, 40);
-	private string[] itemFilter;
-	private string GUITexture;
+
 	private VertexAndIndexDataType VIDT = VertexAndIndexDataType();
+	
 	SMesh@ GUIMesh = SMesh();
 	SMaterial@ GUIMat = SMaterial();
 	string SPELLSICONSPNG = "SPELLSICONS"; // CONST
-	float guiRadius = 250; // CONST
+
+	float guiRadius = 50; // CONST
 	float guiOffsetX = 0; // CONST
 	float guiOffsetY = 100; // CONST
+
 	Driver@ driver;
+	Vec2f origin = Vec2f(0.0f,0.0f);
+
 	SpellsGUI()
 	{
 		if(!Texture::exists(SPELLSICONSPNG))
@@ -34,31 +35,54 @@ class SpellsGUI
 			GUIMesh.SetMaterial(GUIMat);
 			GUIMesh.SetHardwareMapping(SMesh::STATIC);
 		}
-		spells.push_back(Spell(VIDT,Icon(Vec2f(0.0f,0.0f), Vec2f(32.0f,32.0f))));
-		float angleSeparation = 90/spells.size();
-		@driver = getDriver();
-		for (int i=0; i < spells.size() ; ++i)
-		{
-			spells[i].setRenderPosition(driver.getWorldPosFromScreenPos(Vec2f(getScreenWidth()/2 + Maths::Cos(45+angleSeparation*i)*guiRadius, getScreenHeight()/2 - Maths::Sin(45+angleSeparation*i)*guiRadius - guiOffsetY)));
-		}
-
+		//spells.push_back(Spell(VIDT,Icon(Vec2f(1.0f,1.0f), Vec2f(32.0f,32.0f))));
+		spells.push_back(SpongeXplosionSpell(VIDT));
 	}
 
-	string Update()
+	bool Update()
 	{
 		CControls@ controls = getControls();
-
-		if (controls.isKeyJustPressed(KEY_LBUTTON))
+		if (controls != null)
 		{
-			Vec2f mousePos = controls.getMouseScreenPos();
-			print("mouse pos : " + mousePos);
+			Spell@ tempspell = null;
+			for (int i=0; i < spells.size() ; ++i)
+			{
+				// following could be optimised if i know in advance where all the spell position are at
+				// this could be done using the math equation to place them in the first place
+				if(spells[i].isMouseOver(controls.getMouseScreenPos()))
+				{
+					@tempspell = spells[i];
+					spells[i].setColorHovering();
+				}
+				else{
+					spells[i].setColorNormal();
+				}
+			}
+			if (controls.isKeyJustPressed(KEY_LBUTTON))
+			{
+				Vec2f mousePos = controls.getMouseScreenPos();
+				if(tempspell != null)
+				{
+					tempspell.execute();
+				}
+				return false;
+			}
 		}
 
-		return "";
+		return true;
 	}
-
+	void setGUIOrigin(Vec2f newOrigin)
+	{
+		origin = newOrigin;
+	}
 	void Render()
 	{
+		float angleSeparation = 90/spells.size();
+		for (int i=0; i < spells.size() ; ++i)
+		{
+			spells[i].setRenderPosition(Vec2f(origin.x + Maths::Cos(45+angleSeparation*i)*guiRadius,  origin.y - Maths::Sin(45+angleSeparation*i)*guiRadius - guiOffsetY));
+		}
+		Render::SetTransformScreenspace();
 		GUIMesh.SetVertex(VIDT.getVertexArray());
 		GUIMesh.SetIndices(VIDT.getIndexArray()); 
 		GUIMesh.BuildMesh();
