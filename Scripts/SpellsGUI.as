@@ -12,9 +12,9 @@ class SpellsGUI
 	SMaterial@ GUIMat = SMaterial();
 	string SPELLSICONSPNG = "SPELLSICONS"; // CONST
 
-	float guiRadius = 50; // CONST
+	float guiRadius = 70; // CONST
 	float guiOffsetX = 0; // CONST
-	float guiOffsetY = 100; // CONST
+	float guiOffsetY = 0; // CONST
 
 	Driver@ driver;
 	Vec2f origin = Vec2f(0.0f,0.0f);
