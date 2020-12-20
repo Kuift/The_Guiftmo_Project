@@ -1,0 +1,86 @@
+@startuml Conception
+
+skinparam defaultfontname Verdana
+title GUI spells interaction model
+
+hide empty members
+abstract Spell
+{
+    - MGO:MeshGUIObject
+    + setRenderPosition(position:Vec2f):void
+    + setRenderSize(scale:Vec2f):void
+    + getNumberOfChargesLeft():int
+    + addCharge(numberOfCharges:int):void
+    + execute():bool <<abstract>>
+}
+class MeshGUIObject
+{
+  - position:Vec2f
+  - VIDT:VertexAndIndexDataType@
+  - vertexArrayStartIndex:int
+  - vertexArrayEndIndex:int
+  - IndexArrayStartIndex:int
+  - IndexArrayEndIndex:int
+  - size:Vec2f
+  + refresh()
+  + MeshGUIObject(Vertex[] &vertexArray, u16[] &indexArray, Icon icon)
+}
+class DescriptionGUI extends MeshGUIObject
+{
+
+}
+
+class Icon
+{
+  + Icon(textureCoordUpperLeft:Vec2f, textureCoordBottomRight:Vec2f)
+  + getUVX(i:int)
+  + getUVY(i:int)
+}
+package Spells <<Rectangle>> 
+{
+  class LogTrapSpell extends Spell
+  {
+    + execute():bool
+  }
+  class BloodSpell extends Spell
+  {
+    + execute():bool
+  }
+  class FireballSpell extends Spell
+  {
+    + execute():bool
+  }
+  class SpongeXplosionSpell extends Spell
+  {
+    + execute():bool
+  }
+}
+class VertexAndIndexDataType
+{
+  - v_raw:Vertex[]
+  - v_i:u16[]
+}
+class SpellsGUI
+Entity GUIRenderer
+class RuneGame
+class RuneKeyboard
+GUIRenderer "1"--> "1" SpellsGUI : Setup >
+SpellsGUI "1" *- "1..*" Spell : Contains >
+SpellsGUI "1" -- "1"  RuneGame
+RuneGame "1" o-- "1" RuneKeyboard
+Spell *-- "1" MeshGUIObject
+MeshGUIObject o-- "1" Icon
+SpellsGUI *-- "1" VertexAndIndexDataType 
+Spell ..> VertexAndIndexDataType : Temporary Use >
+MeshGUIObject --> VertexAndIndexDataType
+@enduml
+
+class Université
+class Enseignant{
+  prénom: String
+  nom: String
+  courriel: String
+}
+
+
+Université "1" -- "1..*" Enseignant : Emploie >
