@@ -24,15 +24,8 @@ class SpongeXplosionSpell: Spell
 				if (sponge != null)
 				{
 					sponge.Init();
-					sponge.setPosition(playerBlob.getPosition() + normalRightVector.RotateBy(-180/nbOfSponges));
-					if(i == 0)
-					{
-						sponge.setVelocity(rightVector);
-					}
-					else
-					{
-						sponge.setVelocity(rightVector.RotateBy(-180/nbOfSponges));
-					}
+					sponge.setPosition(playerBlob.getPosition() + normalRightVector.RotateBy(-169/nbOfSponges));
+					sponge.setVelocity(rightVector.RotateBy(-169/nbOfSponges));
 				}
 			}
 		}
