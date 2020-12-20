@@ -1,12 +1,3 @@
 # General
-    - finish the SpellsGUI class
-    - create a functional LogTrapSpell Class
-    - make the execute part of the LogTrapSpell do something
-    - mouse hover GUI should show a different texture; make all the traditional button states
-        - normal
-        - mouse hover
-        - pressed
-        - released
     - fix the radial UI setup, make GUI spread when shown for the first time
-    - get proper art for the GUI, fix esthetics
-    - As always, update the documentation
+    - numbers of charges left should appear on the spell gui when hovering on it

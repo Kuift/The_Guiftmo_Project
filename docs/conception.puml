@@ -1,7 +1,7 @@
 @startuml Conception
 
 skinparam defaultfontname Verdana
-title Spell GUI interaction model
+title GUI spells interaction model
 
 hide empty members
 abstract Spell
@@ -70,8 +70,8 @@ SpellsGUI "1" -- "1"  RuneGame
 RuneGame "1" o-- "1" RuneKeyboard
 Spell *-- "1" MeshGUIObject
 MeshGUIObject o-- "1" Icon
-SpellsGUI *-- "1" VertexAndIndexDataType
-Spell ..> VertexAndIndexDataType
+SpellsGUI *-- "1" VertexAndIndexDataType 
+Spell ..> VertexAndIndexDataType : Temporary Use >
 MeshGUIObject --> VertexAndIndexDataType
 @enduml
 
