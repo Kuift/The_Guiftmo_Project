@@ -18,16 +18,18 @@ class SpongeXplosionSpell: Spell
 		Vec2f rightVector = Vec2f(strenght,0.0f);
 		if(playerBlob != null)
 		{
+			Vec2f currentPos = playerBlob.getPosition();
 			for(int i = 0; i < nbOfSponges; ++i)
 			{
 				CBlob@ sponge = server_CreateBlobNoInit("sponge");
 				if (sponge != null)
 				{
 					sponge.Init();
-					sponge.setPosition(playerBlob.getPosition() + normalRightVector.RotateBy(-169/nbOfSponges));
+					sponge.setPosition(currentPos + normalRightVector.RotateBy(-169/nbOfSponges));
 					sponge.setVelocity(rightVector.RotateBy(-169/nbOfSponges));
 				}
 			}
+			Sound::Play("/Sounds/sponge1.ogg", currentPos, 100.0f);
 		}
 		return true;
 	}
