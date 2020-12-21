@@ -17,7 +17,9 @@ void onInit(CBlob @ this)
 	this.set_bool("isControlled", false);
 	this.set_u32("time", Time());
 	LimitedAttack_setup(this);
-
+	CMap@ map = getMap();
+	this.set_u32("oldtime", map.getTimeSinceStart());
+	this.set_u8("iterationCounter", 0);
 	this.set_u8("blocks_pierced", 0);
 	u32[] tileOffsets;
 	this.set("tileOffsets", tileOffsets);
@@ -72,9 +74,6 @@ void onTick(CBlob@ this)
 	MakeFireCross(this, this.getPosition());
 	
 }
-bool switchtero = false;
-int oldtime;
-int nb = 0;
 void MakeFireCross(CBlob@ this, Vec2f burnpos)
 {
 	/*
@@ -87,54 +86,48 @@ void MakeFireCross(CBlob@ this, Vec2f burnpos)
 	*/
 
 	CMap@ map = getMap();
-	if (switchtero == false)
+	if(map.getTimeSinceStart() - this.get_u32("oldtime") > getTicksASecond() * 2)
 	{
-		oldtime = map.getTimeSinceStart();
-		switchtero = true;
-	}
-	if(map.getTimeSinceStart() - oldtime > getTicksASecond() * 1)
-	{
-		switchtero = false;
-		if(nb >= 15)
+		this.set_u32("oldtime", map.getTimeSinceStart());
+		if(	this.get_u8("iterationCounter") >= 15)
 		{
-			nb = 0;
 			this.server_Die();
 		}
-		nb += 1;
-	const float ts = map.tilesize;
+		this.set_u8("iterationCounter", 1+this.get_u8("iterationCounter"));
+		const float ts = map.tilesize;
 
-	//align to grid
-	burnpos = Vec2f(
-		(Maths::Floor(burnpos.x / ts) + 0.5f) * ts,
-		(Maths::Floor(burnpos.y / ts) + 0.5f) * ts
-	);
+		//align to grid
+		burnpos = Vec2f(
+			(Maths::Floor(burnpos.x / ts) + 0.5f) * ts,
+			(Maths::Floor(burnpos.y / ts) + 0.5f) * ts
+		);
 
-	Vec2f[] positions = {
-		burnpos, // center
-		burnpos - Vec2f(ts, 0.0f), // left
-		burnpos + Vec2f(ts, 0.0f), // right
-		burnpos - Vec2f(0.0f, ts), // up
-		burnpos + Vec2f(0.0f, ts) // down
-	};
+		Vec2f[] positions = {
+			burnpos, // center
+			burnpos - Vec2f(ts, 0.0f), // left
+			burnpos + Vec2f(ts, 0.0f), // right
+			burnpos - Vec2f(0.0f, ts), // up
+			burnpos + Vec2f(0.0f, ts) // down
+		};
 
-	for (int i = 0; i < positions.length; i++)
-	{
-		Vec2f pos = positions[i];
-		//set map on fire
-		map.server_setFireWorldspace(pos, true);
-
-		//set blob on fire
-		CBlob@ b = map.getBlobAtPosition(pos);
-		//skip self or nothing there
-		if (b is null || b is this) continue;
-
-		//only hit static blobs
-		CShape@ s = b.getShape();
-		if (s !is null && s.isStatic())
+		for (int i = 0; i < positions.length; i++)
 		{
-			this.server_Hit(b, this.getPosition(), this.getVelocity(), 0.5f, Hitters::fire);
+			Vec2f pos = positions[i];
+			//set map on fire
+			map.server_setFireWorldspace(pos, true);
+
+			//set blob on fire
+			CBlob@ b = map.getBlobAtPosition(pos);
+			//skip self or nothing there
+			if (b is null || b is this) continue;
+
+			//only hit static blobs
+			CShape@ s = b.getShape();
+			if (s !is null && s.isStatic())
+			{
+				this.server_Hit(b, this.getPosition(), this.getVelocity(), 0.5f, Hitters::fire);
+			}
 		}
-	}
 	}
 }
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
