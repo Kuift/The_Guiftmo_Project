@@ -1,5 +1,6 @@
 #include "/Entities/Common/Attacks/Hitters.as";
 #include "/Entities/Common/Attacks/LimitedAttacks.as";
+#include "FireParticle.as"
 
 const int pierce_amount = 8;
 
@@ -13,9 +14,12 @@ void onInit(CBlob @ this)
 	this.set_u8("launch team", 255);
 	this.server_setTeamNum(-1);
 	this.Tag("medium weight");
-
+	this.set_bool("isControlled", false);
+	this.set_u32("time", Time());
 	LimitedAttack_setup(this);
-
+	CMap@ map = getMap();
+	this.set_u32("oldtime", map.getTimeSinceStart());
+	this.set_u8("iterationCounter", 0);
 	this.set_u8("blocks_pierced", 0);
 	u32[] tileOffsets;
 	this.set("tileOffsets", tileOffsets);
@@ -27,15 +31,104 @@ void onInit(CBlob @ this)
 
 void onTick(CBlob@ this)
 {
-	//rock and roll mode
+	if(this.hasTag("canbecontrolled") && !this.get_bool("isControlled"))
+	{
+		if (this.getVelocity().y < 1.0f && this.getVelocity() .y > -1.0f)
+		{
+			this.setVelocity(Vec2f(0.0f,-1.0f));
+		}
+		else
+		{
+			this.setVelocity(this.getOldVelocity() + Vec2f(0.0f,0.1f));
+		}
+	}
+	if (this.hasTag("canbecontrolled"))
+	{
+		if(Time() - this.get_u32("time") >= 1)
+		{
+			if (this.getDamageOwnerPlayer().getUsername() == getLocalPlayer().getUsername())
+			{
+				CControls@ controls = getControls();
+				if (controls != null)
+				{
+					if (controls.isKeyPressed(KEY_LBUTTON))
+					{
+						this.set_bool("isControlled", true);
+						float strenght = 3;
+						Vec2f delta = (controls.getMouseWorldPos() - this.getPosition());
+						delta = Vec2f(delta.x/delta.Length()*strenght,delta.y/delta.Length()*strenght-1.0f);
+						this.setVelocity(this.getOldVelocity() +  delta);
+					}
+				}
+			}
+		}
+	}
 	if (!this.getShape().getConsts().collidable)
 	{
 		Vec2f vel = this.getVelocity();
 		f32 angle = vel.Angle();
 		Slam(this, angle, vel, this.getShape().vellen * 1.5f);
 	}
+	makeFireParticle(this.getPosition(), 4);
+	MakeFireCross(this, this.getPosition());
+	
 }
+void MakeFireCross(CBlob@ this, Vec2f burnpos)
+{
+	/*
+	fire starting pattern
+	X -> fire | O -> not fire
 
+	[O] [X] [O]
+	[X] [X] [X]
+	[O] [X] [O]
+	*/
+
+	CMap@ map = getMap();
+	if(map.getTimeSinceStart() - this.get_u32("oldtime") > getTicksASecond() * 2)
+	{
+		this.set_u32("oldtime", map.getTimeSinceStart());
+		if(	this.get_u8("iterationCounter") >= 15)
+		{
+			this.server_Die();
+		}
+		this.set_u8("iterationCounter", 1+this.get_u8("iterationCounter"));
+		const float ts = map.tilesize;
+
+		//align to grid
+		burnpos = Vec2f(
+			(Maths::Floor(burnpos.x / ts) + 0.5f) * ts,
+			(Maths::Floor(burnpos.y / ts) + 0.5f) * ts
+		);
+
+		Vec2f[] positions = {
+			burnpos, // center
+			burnpos - Vec2f(ts, 0.0f), // left
+			burnpos + Vec2f(ts, 0.0f), // right
+			burnpos - Vec2f(0.0f, ts), // up
+			burnpos + Vec2f(0.0f, ts) // down
+		};
+
+		for (int i = 0; i < positions.length; i++)
+		{
+			Vec2f pos = positions[i];
+			//set map on fire
+			map.server_setFireWorldspace(pos, true);
+
+			//set blob on fire
+			CBlob@ b = map.getBlobAtPosition(pos);
+			//skip self or nothing there
+			if (b is null || b is this) continue;
+
+			//only hit static blobs
+			CShape@ s = b.getShape();
+			if (s !is null && s.isStatic())
+			{
+				this.server_Hit(b, this.getPosition(), this.getVelocity(), 0.5f, Hitters::fire);
+			}
+		}
+	}
+}
 void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
 {
 	this.set_u8("launch team", detached.getTeamNum());

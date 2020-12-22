@@ -1,6 +1,8 @@
 #include "Spell.as"
 #include "VertexAndIndexDataType.as"
 #include "SpongeXplosionSpell.as"
+#include "FireballSpell.as"
+#include "FireballExplosionSpell.as"
 //thanks to epsilon for the starter code.
 class SpellsGUI
 {
@@ -12,9 +14,9 @@ class SpellsGUI
 	SMaterial@ GUIMat = SMaterial();
 	string SPELLSICONSPNG = "SPELLSICONS"; // CONST
 
-	float guiRadius = 50; // CONST
+	float guiRadius = 100; // CONST
 	float guiOffsetX = 0; // CONST
-	float guiOffsetY = 100; // CONST
+	float guiOffsetY = 0; // CONST
 
 	Driver@ driver;
 	Vec2f origin = Vec2f(0.0f,0.0f);
@@ -37,6 +39,8 @@ class SpellsGUI
 		}
 		//spells.push_back(Spell(VIDT,Icon(Vec2f(1.0f,1.0f), Vec2f(32.0f,32.0f))));
 		spells.push_back(SpongeXplosionSpell(VIDT));
+		spells.push_back(FireballSpell(VIDT));
+		spells.push_back(FireballExplosionSpell(VIDT));
 	}
 
 	bool Update()

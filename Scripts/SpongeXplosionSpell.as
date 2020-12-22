@@ -10,26 +10,12 @@ class SpongeXplosionSpell: Spell
 	}
 	bool execute() override
 	{
-        print("sponge explosion!");
-		int nbOfSponges = 10;
-		CBlob@ playerBlob = getLocalPlayerBlob();
-		float strenght = 10.0f;
-		Vec2f normalRightVector = Vec2f(1.0f, 0.0f);
-		Vec2f rightVector = Vec2f(strenght,0.0f);
-		if(playerBlob != null)
-		{
-			for(int i = 0; i < nbOfSponges; ++i)
-			{
-				CBlob@ sponge = server_CreateBlobNoInit("sponge");
-				if (sponge != null)
-				{
-					sponge.Init();
-					sponge.setPosition(playerBlob.getPosition() + normalRightVector.RotateBy(-180/nbOfSponges));
-					sponge.setVelocity(rightVector.RotateBy(-180/nbOfSponges));
-					print("vec : " + rightVector);
-				}
-			}
-		}
+
+		CBitStream params;
+		CPlayer@ player = getLocalPlayer();
+		uint16 id = player.getNetworkID();
+		params.write_u16(id);
+		getRules().SendCommand(getRules().getCommandID("spongeExplosion"), params);
 		return true;
 	}
 }
