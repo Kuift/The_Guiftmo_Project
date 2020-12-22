@@ -57,7 +57,7 @@ void addCharge(int spellID)
 }
 
 
-bool isDebugMode = true; // this is necessary because client/server interaction stuff doesn't work well when ran locally
+bool isDebugMode = false; // this is necessary because client/server interaction stuff doesn't work well when ran locally
 
 
 //implementation of spells are forced here due to how kag engine work
