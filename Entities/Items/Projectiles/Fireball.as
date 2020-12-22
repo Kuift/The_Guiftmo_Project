@@ -40,7 +40,6 @@ void onTick(CBlob@ this)
 		else
 		{
 			this.setVelocity(this.getOldVelocity() + Vec2f(0.0f,0.1f));
-			print("got here pgu");
 		}
 	}
 	if (this.hasTag("canbecontrolled"))
