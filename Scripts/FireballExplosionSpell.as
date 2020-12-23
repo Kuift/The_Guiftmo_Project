@@ -3,7 +3,7 @@ class FireballExplosionSpell: Spell
 {
 	FireballExplosionSpell(VertexAndIndexDataType@ VIDT)
 	{
-        super(VIDT, Icon(Vec2f(96.0f,0.0f), Vec2f(160.0f,64.0f)));
+        super(VIDT, Icon(Vec2f(176.0f,1.0f), Vec2f(248.0f,72.0f)));
 	}
     int getSpellID() override
 	{

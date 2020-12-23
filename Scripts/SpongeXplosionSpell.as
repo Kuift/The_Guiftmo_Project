@@ -2,7 +2,7 @@ class SpongeXplosionSpell: Spell
 {
 	SpongeXplosionSpell(VertexAndIndexDataType@ VIDT)
 	{
-        super(VIDT, Icon(Vec2f(32.0f,0.0f), Vec2f(96.0f,64.0f)));
+        super(VIDT, Icon(Vec2f(31.0f,0.0f), Vec2f(104.0f,72.0f)));
 	}
     int getSpellID() override
 	{
@@ -10,7 +10,6 @@ class SpongeXplosionSpell: Spell
 	}
 	bool execute() override
 	{
-
 		CBitStream params;
 		CPlayer@ player = getLocalPlayer();
 		uint16 id = player.getNetworkID();
